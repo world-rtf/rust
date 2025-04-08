@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+
+  server:
+    build: server 
+    environment:
+      - DATABASE_URL=postgresql://postgres:1234@db:5432/db
+      - ADDRESS=0.0.0.0
+      - PORT=7878
+    depends_on:
+      - db
+    ports:
+      - 7878:7878
+      
+
+  db:
+    restart: always
+    image: postgres:latest
+    volumes:
+    - ./database:/var/lib/postgresql/data:Z
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=db
+    ports:
+      - 5433:5432
+
+
+  grafana:
+    user: "0"
+    image: grafana/grafana-oss
+    volumes:
+      - ./grafana:/etc/grafana/provisioning/:Z
+    depends_on:
+      - db
+    ports: 
+      - 3001:3000
+      
