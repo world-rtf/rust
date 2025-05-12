@@ -1,0 +1,9 @@
+[robot]
+id = 1337
+temperature = 0
+robot_pos = [0, 0, 0]
+
+[camera]
+vid = "FILE:./vid.mp4"
+# /dev/video0
+#vid = "DEVICE:0"
